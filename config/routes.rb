@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   #namespace :api, constraints: { format: 'json' } do
    # namespace :v1 do
-      devise_for :users
+      devise_for :users, controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+      }
     #end
   #end
   # The priority is based upon order of creation: first created -> highest priority.

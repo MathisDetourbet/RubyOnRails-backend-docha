@@ -6,15 +6,33 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
 
-  # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+ # POST /resource/sign_in
+  def create
+    user = User.find_by_email(params[:email])
+    return invalid_login_attempt unless user
+
+    if user.valid_password?(params[:password])
+      sign_in(user)
+      user.ensure_authentification_token
+      render :json => { :success => true,
+                        :auth_token => user.auth_token,
+                        :email => user.email }
+      return
+    end
+    invalid_login_attempt
+  end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+      sign_out(current_user) if user_signed_in?
+  end
+
+  def invalid_login_attempt
+    warden.custom_failure!
+    render :json => { :success =>false,
+                     :message =>"Invalid email or password" }, 
+                     :status => 401
+  end
 
   # protected
 

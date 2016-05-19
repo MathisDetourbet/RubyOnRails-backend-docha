@@ -2,32 +2,36 @@ class Users::RegistrationsController < Devise::RegistrationsController
 # before_action :configure_sign_up_params, only: [:create]
 # before_action :configure_account_update_params, only: [:update]
   respond_to :json
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  skip_before_filter :verify_authenticity_token
 
   #POST /resource
   def create
-    @user = User.new(user_params)
-    if @user.save
-      sign_in @user
+    user = User.new(user_params)
+    if user.save
+      sign_in user
       render :json => { 
                 :success => true,
                 :info => "Registered",
-                :data => { :user => @user,
-                           :auth_token => @user.auth_token,
+                :data => { :user => user,
+                           :auth_token => user.auth_token,
                            :sign_in => user_signed_in?
                          }
               },
            :status => 201
     else
+      warden.custom_failure!
       render :json => { :success => false,
-                        :info => @user.errors,
+                        :info => user.errors,
                         :data => {} 
                       }, 
              :status => :unprocessable_entity
     end
+  end
+
+  def invalid_login_attempt
+    render :json => { :success => false,
+                      :message => "Invalid email or password"},
+                      :status => 401
   end
 
   private

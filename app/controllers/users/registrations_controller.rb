@@ -3,10 +3,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
   respond_to :json
   skip_before_filter :verify_authenticity_token
-
+  
   #POST /resource
   def create
     user = User.new(user_params)
+    user
     if user.save
       sign_in user
       render :json => { 

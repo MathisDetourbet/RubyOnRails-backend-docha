@@ -27,12 +27,21 @@ class Users::SessionsController < Devise::SessionsController
       sign_out(current_user) if user_signed_in?
   end
 
-  def invalid_login_attempt
-    warden.custom_failure!
-    render :json => { :success =>false,
-                     :message =>"Invalid email or password" }, 
-                     :status => 401
-  end
+  protected
+
+    def ensure_params_exist
+      return unless params[:email].blank?
+      render :json => { :success => false,
+                        :message => "Missing user_login parameters",
+                        :status => 401 }
+    end
+
+    def invalid_login_attempt
+      warden.custom_failure!
+      render :json => { :success =>false,
+                        :message =>"Invalid email or password" }, 
+                        :status => 401
+    end
 
   # protected
 

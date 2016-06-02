@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     user = User.new(user_params)
     user
     if user.save
-      sign_in user
+      #sign_in user
       render :json => { 
                 :success => true,
                 :info => "Registered",

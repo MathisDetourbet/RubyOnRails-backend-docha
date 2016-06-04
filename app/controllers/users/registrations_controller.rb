@@ -7,7 +7,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #POST /resource
   def create
     user = User.new(user_params)
-    user
     if user.save
       #sign_in user
       render :json => { 
@@ -38,13 +37,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
     def user_params
       params.require(:user).permit(
-        :email, 
-        :password, 
-        :date_birthday, 
-        :sexe,
-        :last_name,
-        :first_name,
-        :category_favorite)
+        :email, :password, 
+        :date_birthday, :sexe,:last_name, :first_name, :category_favorite, :avatar,
+        :fb_id, :fb_image_url, :fb_token
+      )
     end
 
   # GET /resource/edit
@@ -53,9 +49,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    user = User.find(current_user.id)
+  end
 
   # DELETE /resource
   # def destroy

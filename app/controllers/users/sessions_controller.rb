@@ -1,52 +1,60 @@
 class Users::SessionsController < Devise::SessionsController
-# before_action :configure_sign_in_params, only: [:create]
-  respond_to :json
-  # GET /resource/sign_in
-  # def new
-  #   super
-  # end
+    # before_action :configure_sign_in_params, only: [:create]
+    respond_to :json
 
- # POST /resource/sign_in
-  def create
-    user = User.find_by_email(params[:email])
-    return invalid_login_attempt unless user
+    # GET /resource/sign_in
+    # def new
+    #   super
+    # end
 
-    if user.valid_password?(params[:password])
-      sign_in(user)
-      user.ensure_authentification_token
-      render :json => { :success => true,
-                        :auth_token => user.auth_token,
-                        :email => user.email }
-      return
-    end
-    invalid_login_attempt
-  end
+    # POST /resource/sign_in
+    def create
+      user = User.find_by_email(params[:email])
+      return invalid_login_attempt unless user
 
-  # DELETE /resource/sign_out
-  def destroy
-      sign_out(current_user) if user_signed_in?
-  end
-
-  protected
-
-    def ensure_params_exist
-      return unless params[:email].blank?
-      render :json => { :success => false,
-                        :message => "Missing user_login parameters",
-                        :status => 401 }
+      if user.valid_password?(params[:password])
+        sign_in(user)
+        user.ensure_authentification_token
+        render :json => { :success => true,
+                          :auth_token => user.auth_token,
+                          :email => user.email 
+                        }
+        return
+      end
+      invalid_login_attempt
     end
 
-    def invalid_login_attempt
-      warden.custom_failure!
-      render :json => { :success =>false,
-                        :message =>"Invalid email or password" }, 
-                        :status => 401
+    def signup_with_facebook
+   	  puts "METHOD signup_with_facebook !!!!!"
     end
 
-  # protected
+    # DELETE /resource/sign_out
+    def destroy
+        sign_out(current_user) if user_signed_in?
+    end
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_in_params
-  #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-  # end
+    protected
+
+      def ensure_params_exist
+        return unless params[:email].blank?
+        render :json => { :success => false,
+                          :message => "Missing user_login parameters",
+                          :status => 401 
+                        }
+      end
+
+      def invalid_login_attempt
+        warden.custom_failure!
+        render :json => { :success =>false,
+                          :message =>"Invalid email or password" 
+                        }, 
+               :status => 401
+      end
+
+    # protected
+
+    # If you have extra params to permit, append them to the sanitizer.
+    # def configure_sign_in_params
+    #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
+    # end
 end

@@ -1,0 +1,2 @@
+module FacebookCallbacksHelper
+end

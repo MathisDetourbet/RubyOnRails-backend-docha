@@ -1,25 +1,28 @@
 class Users::PasswordsController < Devise::PasswordsController
+  prepend_before_filter :require_no_authentication
+  append_before_filter :assert_reset_token_passed, :only => :edit
+
   # GET /resource/password/new
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   # POST /resource/password
-  # def create
-  #   super
-  # end
+  def create
+    super
+  end
 
   # GET /resource/password/edit?reset_password_token=abcdef
-  # def edit
-  #   super
-  # end
+  def edit
+    super
+  end
 
   # PUT /resource/password
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
-  # protected
+  protected
 
   # def after_resetting_password_path_for(resource)
   #   super(resource)

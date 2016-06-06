@@ -16,9 +16,13 @@ class Users::SessionsController < Devise::SessionsController
         sign_in(user)
         user.ensure_authentification_token
         render :json => { :success => true,
-                          :auth_token => user.auth_token,
-                          :email => user.email 
-                        }
+                          :info => "Sign in",
+                          :data => { :user => user,
+                                   :auth_token => user.auth_token,
+                                   :sign_in => user_signed_in?
+                                   }
+                        },
+               :status => 200
         return
       end
       invalid_login_attempt

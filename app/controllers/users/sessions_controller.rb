@@ -35,7 +35,12 @@ class Users::SessionsController < Devise::SessionsController
     # DELETE /resource/sign_out
     def destroy
         sign_out(current_user) if user_signed_in?
+        render :json => { :success => true,
+                          :message => "User has been disconnected",
+                          :status => 200 
+                        }
     end
+
 
     protected
 

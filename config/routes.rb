@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   #namespace :api, constraints: { format: 'json' } do
    # namespace :v1 do
       
+      resources :users, only: [:show, :edit, :update]
+
       devise_scope :user do
       	post 'users/auth/facebook', to: 'users/registrations#auth_facebook'
       end

@@ -33,7 +33,7 @@ def auth_facebook
   if fb_access_token.to_s != ''
     graph = Koala::Facebook::API.new(fb_access_token)
 
-    profile = graph.get_object("me?fields=id, email, birthday, gender, last_name, first_name, picture")
+    profile = graph.get_object("me?fields=id, email, birthday, gender, last_name, first_name, picture.type(large)")
     fb_profile_hash = Hash.new
     fb_profile_hash[:provider] = "facebook"
     fb_profile_hash[:fb_id] = profile["id"]

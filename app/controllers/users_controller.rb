@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
   respond_to :json
+  skip_before_filter :verify_authenticity_token
 
   # GET /users
   # GET /users.json
@@ -42,8 +43,14 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+      @user = User.find(params[:id])
       if @user.update(user_params)
-        format.json { render :show, status: :ok, location: @user }
+        format.json { render :json => { :success => true,
+                          :info => "Profil updated",
+                          :data => { :user => @user }
+                        },
+               :status => 200
+             }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -68,6 +75,10 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(
+      :email, :password, 
+      :date_birthday, :sexe, :last_name, :first_name, :category_favorite, :avatar,
+      :fb_token, :fb_image_url
+      )
     end
 end

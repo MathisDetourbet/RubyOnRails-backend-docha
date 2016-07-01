@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604212430) do
+ActiveRecord::Schema.define(version: 20160701123311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,10 @@ ActiveRecord::Schema.define(version: 20160604212430) do
     t.string   "fb_image_url"
     t.string   "fb_token",               default: "", null: false
     t.string   "provider",               default: "", null: false
+    t.integer  "dochos",                 default: 0,  null: false
+    t.integer  "perfects",               default: 0,  null: false
+    t.integer  "experience",             default: 0,  null: false
+    t.integer  "levelUser",              default: 1,  null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

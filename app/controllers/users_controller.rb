@@ -78,7 +78,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(
       :email, :password, 
       :date_birthday, :sexe, :last_name, :first_name, :category_favorite, :avatar,
-      :fb_token, :fb_image_url
+      :fb_token, :fb_image_url, :experience, :dochos, :perfects, :levelUser
       )
     end
 end

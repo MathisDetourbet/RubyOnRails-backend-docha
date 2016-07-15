@@ -1,5 +1,7 @@
 class Users::SessionsController < Devise::SessionsController
     # before_action :configure_sign_in_params, only: [:create]
+    before_filter :authentificate_user_from_token!, :except => [:create]
+    before_filter :ensure_params_exist, :except => [:destroy]
     respond_to :json
 
     # GET /resource/sign_in
@@ -11,7 +13,6 @@ class Users::SessionsController < Devise::SessionsController
     def create
       user = User.find_by_email(params[:email])
       return invalid_login_attempt unless user
-
       if user.valid_password?(params[:password])
         sign_in(user)
         user.ensure_authentification_token
@@ -26,10 +27,6 @@ class Users::SessionsController < Devise::SessionsController
         return
       end
       invalid_login_attempt
-    end
-
-    def signup_with_facebook
-   	  puts "METHOD signup_with_facebook !!!!!"
     end
 
     # DELETE /resource/sign_out

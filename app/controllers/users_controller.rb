@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :authenticate_user!
   respond_to :json
   skip_before_filter :verify_authenticity_token
 

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :price_records
   #namespace :api, constraints: { format: 'json' } do
    # namespace :v1 do
       

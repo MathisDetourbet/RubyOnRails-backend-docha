@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Price Records</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Product</th>
+      <th>Psy price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @price_records.each do |price_record| %>
+      <tr>
+        <td><%= price_record.user_id %></td>
+        <td><%= price_record.product_id %></td>
+        <td><%= price_record.psy_price %></td>
+        <td><%= link_to 'Show', price_record %></td>
+        <td><%= link_to 'Edit', edit_price_record_path(price_record) %></td>
+        <td><%= link_to 'Destroy', price_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Price record', new_price_record_path %>

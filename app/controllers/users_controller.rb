@@ -68,6 +68,36 @@ class UsersController < ApplicationController
   #   end
   # end
 
+  def get_user_friends_docha
+    fb_access_token = params[:user][:fb_token]
+    if fb_access_token.to_s != ''
+      graph = Koala::Facebook::API.new(fb_access_token)
+
+      friendsList = Array.new
+
+      friends = graph.get_connections('me', 'invitable_friends', api_version: 'v2.7')#("me/friends?fields=picture.type(small)")
+      friends.each do |friend|
+        puts friend
+        friendID = friend["id"]
+        user = User.where(fb_id: friendID).first
+        if user
+          friendsList.push(user)
+        end
+        friendsList.push(friend)
+      end
+
+      #unless friendsList.empty?
+        render :json => { 
+                :success => true,
+                :data => { :friends => friends }
+              },
+               :status => 201
+        #else
+          #render :json => { :success => false, :friends => friendsList, :info => "FriendsList is empty" }
+      #end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

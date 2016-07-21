@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :edit, :update]
 
       devise_scope :user do
+        post 'users/friends/dochainstalled', to: 'users#get_user_friends_docha'
       	post 'users/auth/facebook', to: 'users/registrations#auth_facebook'
       end
 

@@ -48,8 +48,6 @@ def auth_facebook
       fb_profile_hash[:sexe] = "F"
     end
     fb_profile_hash[:fb_image_url] = profile["picture"]["data"]["url"]
-
-    puts fb_profile_hash
     
     @user = User.find_for_facebook_oauth(fb_profile_hash)
 
